@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +15,14 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles, Send, Loader2, Copy, CheckCircle2 } from "lucide-react";
+import {
+  Sparkles,
+  Send,
+  Loader2,
+  Copy,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
 import type { Channel, Customer } from "@/lib/types";
 
 export function InviteComposer({
@@ -23,14 +32,20 @@ export function InviteComposer({
   customers: Customer[];
   initialCustomerId: string;
 }) {
+  const router = useRouter();
   const [customerId, setCustomerId] = useState(initialCustomerId);
   const [channel, setChannel] = useState<Channel>("line");
   const [extraNote, setExtraNote] = useState("");
   const [message, setMessage] = useState("");
   const [model, setModel] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [sending, startSending] = useTransition();
   const [copied, setCopied] = useState(false);
   const [sent, setSent] = useState(false);
+  const [sendError, setSendError] = useState<{
+    code: string;
+    hint?: string;
+  } | null>(null);
 
   const customer = customers.find((c) => c.id === customerId)!;
 
@@ -59,7 +74,21 @@ export function InviteComposer({
   }
 
   function send() {
-    setSent(true);
+    setSendError(null);
+    startSending(async () => {
+      const res = await fetch("/api/invites/send", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ customerId, channel, message, aiModel: model }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setSent(true);
+        router.refresh();
+      } else {
+        setSendError({ code: data.error ?? "unknown", hint: data.hint });
+      }
+    });
   }
 
   return (
@@ -180,16 +209,21 @@ export function InviteComposer({
                   )}
                   {copied ? "已複製" : "複製"}
                 </Button>
-                <Button size="sm" onClick={send} disabled={sent}>
+                <Button size="sm" onClick={send} disabled={sent || sending}>
                   {sent ? (
                     <>
                       <CheckCircle2 className="mr-1 size-3" />
-                      已加入發送佇列
+                      已送出
+                    </>
+                  ) : sending ? (
+                    <>
+                      <Loader2 className="mr-1 size-3 animate-spin" />
+                      送出中…
                     </>
                   ) : (
                     <>
                       <Send className="mr-1 size-3" />
-                      發送
+                      {channel === "line" ? "送 LINE" : "發送"}
                     </>
                   )}
                 </Button>
@@ -201,6 +235,28 @@ export function InviteComposer({
             <ChannelPreview channel={channel} message={message} />
           ) : (
             <EmptyPreview />
+          )}
+
+          {sendError && (
+            <div className="mt-3 rounded-md border border-rose-500/40 bg-rose-500/5 p-3 text-sm">
+              <div className="flex items-center gap-1 font-medium text-rose-700 dark:text-rose-300">
+                <AlertTriangle className="size-3.5" />
+                送出失敗 · {sendError.code}
+              </div>
+              {sendError.hint && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {sendError.hint}
+                </p>
+              )}
+              {sendError.code === "line_not_configured" && (
+                <Link
+                  href="/dashboard/settings"
+                  className="mt-2 inline-block text-xs text-rose-700 underline-offset-2 hover:underline dark:text-rose-300"
+                >
+                  → 到設定頁填 LINE Token
+                </Link>
+              )}
+            </div>
           )}
 
           {message && (
