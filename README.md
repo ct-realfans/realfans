@@ -10,6 +10,12 @@
 - 📊 **投資人 Pitch Deck**：<https://ct-realfans.github.io/realfans/>
 - 💻 **原始碼**：這個 repo
 
+### 內部文件（給開發者與下次自己）
+
+- [`CLAUDE.md`](./CLAUDE.md) — 技術狀態與 session handoff
+- [`GTM.md`](./GTM.md) — 顧客怎麼進、邀評怎麼送、垂直 GTM 劇本
+- [`ROADMAP.md`](./ROADMAP.md) — P0-P3 功能佇列 + 里程碑
+
 ---
 
 ## 為什麼存在

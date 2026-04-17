@@ -196,11 +196,13 @@ vercel deploy --prod --yes       # 部署
 
 ---
 
-## 下次要做的選項（狀態：未決定）
+## 相關文件（下次開 session 必讀）
 
-(b) 做完 LINE channel secret UI / (f) CSV 匯入顧客 / (g) 加 AI Gateway 信用卡 /
-(h) `middleware → proxy` 改名 / (j) 自訂網域 `realfans.tw` / (k) 多店管理 /
-(l) 前端錄製 demo 影片首頁嵌入
+- [`ROADMAP.md`](./ROADMAP.md) — P0-P3 功能佇列 + 投資人里程碑對應
+- [`GTM.md`](./GTM.md) — 顧客怎麼進、邀評怎麼送、3 種垂直 GTM 劇本、成本模型
+- [`docs/index.html`](./docs/index.html) — 投資人 pitch deck（GitHub Pages）
+
+下次繼續開發優先做 `ROADMAP.md` 的 P0 五項（合計 2 天）。
 
 ---
 
