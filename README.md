@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RealFans 真粉
 
-## Getting Started
+> AI 驅動的真實口碑成長引擎 — 粉絲多 Fansdoor 的合法替代品。
 
-First, run the development server:
+不買假粉、不刷假評論。**把既有真顧客，變成會推薦你的五星聲量。**
+
+## 產品
+
+- 🔥 **白帽評論引擎**：AI 根據顧客歷史生成個人化邀評訊息（LINE / SMS / Email），合規不誘導
+- 🤖 **AI 回覆代理人**：Google / FB / IG 留言 24/7 自動回應，符合你的品牌語氣
+- 📈 **內容工廠**：每週 30 則社群貼文 + 短影音腳本
+- 🎯 **在地 SEO 雷達**：監控方圓 3km 同業與關鍵字
+- 📊 **每月品牌健康度 PDF**：可直接給老闆看的 AI 報告
+
+## 技術棧
+
+Next.js 16 · React 19 · Tailwind v4 · shadcn/ui · Vercel AI Gateway · Supabase
+
+## 本地開發
 
 ```bash
+cp .env.example .env.local   # 填入 AI_GATEWAY_API_KEY 才會真正呼叫 LLM
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+沒填 `AI_GATEWAY_API_KEY` 也可以試 — 會使用內建 mock 回應。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+打開 <http://localhost:3000> 看行銷頁，<http://localhost:3000/dashboard>
+看後台。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 首月體驗路徑
 
-## Learn More
+1. 首頁 → 14 天試用
+2. 上傳客戶 CSV（或接 iCHEF / Square）
+3. AI 自動打標、生成邀評
+4. 排程發送 → 追蹤 → AI 自動回覆評論
+5. 每月 AI 報告
 
-To learn more about Next.js, take a look at the following resources:
+## 為什麼合法
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 使用 Google 官方 Review Request 精神：只邀請**真實**顧客
+- AI 訊息不含「請留五星」這類誘導語
+- 所有邀評、回覆都有 `compliance_events` 稽核軌跡
+- 顧客可隨時退訂
