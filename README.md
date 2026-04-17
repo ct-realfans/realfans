@@ -13,7 +13,8 @@
 ### 內部文件（給開發者與下次自己）
 
 - [`CLAUDE.md`](./CLAUDE.md) — 技術狀態與 session handoff
-- [`VALUE.md`](./VALUE.md) — 客戶怎麼省錢/賺錢的完整邏輯 + 投資人 Q&A
+- [`VALUE.md`](./VALUE.md) — 客戶價值邏輯 + 投資人 Q&A（每數字標證據等級）
+- [`POC.md`](./POC.md) — 3 家商家試跑計劃（驗證假設數字）
 - [`GTM.md`](./GTM.md) — 顧客怎麼進、邀評怎麼送、垂直 GTM 劇本
 - [`ROADMAP.md`](./ROADMAP.md) — P0-P3 功能佇列 + 里程碑
 
