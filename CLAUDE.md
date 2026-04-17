@@ -202,6 +202,7 @@ vercel deploy --prod --yes       # 部署
 - [`GTM.md`](./GTM.md) — 顧客怎麼進、邀評怎麼送、3 種垂直 GTM 劇本、成本模型
 - [`VALUE.md`](./VALUE.md) — 客戶價值邏輯（每數字標 🟢/🟡/🔴 證據等級）
 - [`POC.md`](./POC.md) — 3 家商家試跑計劃（把 🔴 變 🟢 的工作清單）
+- [`GLOSSARY.md`](./GLOSSARY.md) — 商業 / 財務 / 技術縮寫對照表
 - [`docs/index.html`](./docs/index.html) — 投資人 pitch deck（GitHub Pages）
 
 下次繼續開發優先做 `ROADMAP.md` 的 P0 五項（合計 2 天）。
