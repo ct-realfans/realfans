@@ -1,6 +1,7 @@
-import { gateway } from "@ai-sdk/gateway";
 import { generateText } from "ai";
 import type { Channel } from "./types";
+
+const MODEL = "anthropic/claude-sonnet-4.6";
 
 export interface InviteContext {
   customerName: string;
@@ -59,22 +60,27 @@ export function buildInvitePrompt(ctx: InviteContext): string {
 
 export async function generateInviteMessage(ctx: InviteContext) {
   const prompt = buildInvitePrompt(ctx);
-  const hasKey = !!process.env.AI_GATEWAY_API_KEY;
 
-  if (!hasKey) {
+  try {
+    const { text } = await generateText({
+      model: MODEL,
+      prompt,
+      temperature: 0.8,
+      providerOptions: {
+        gateway: {
+          tags: ["feature:invite-generate", "app:realfans"],
+        },
+      },
+    });
+    return { message: text.trim(), model: MODEL, prompt };
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err);
     return {
       message: mockInvite(ctx),
-      model: "mock",
+      model: `mock (gateway unavailable: ${reason.slice(0, 80)})`,
       prompt,
     };
   }
-
-  const { text } = await generateText({
-    model: gateway("anthropic/claude-sonnet-4-6"),
-    prompt,
-    temperature: 0.8,
-  });
-  return { message: text.trim(), model: "anthropic/claude-sonnet-4-6", prompt };
 }
 
 function mockInvite(ctx: InviteContext): string {
