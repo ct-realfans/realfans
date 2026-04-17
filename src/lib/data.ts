@@ -1,5 +1,7 @@
 import { cache } from "react";
-import { DEMO_STORE_ID, isSupabaseConfigured, supabase } from "./supabase";
+import { createServerSupabase } from "./supabase/server";
+import { DEMO_STORE_ID, isSupabaseConfigured } from "./supabase";
+import { ensureUserStore } from "./onboarding";
 import type {
   Customer,
   ReviewInvite,
@@ -65,12 +67,31 @@ type ReviewRow = {
   invite_id: string | null;
 };
 
+/**
+ * Resolve which store the current request should see.
+ * - Logged-in user: their own store (auto-created on first visit with demo data cloned)
+ * - Anonymous: the shared demo store (read-only via RLS)
+ */
+export const getActiveStoreId = cache(async (): Promise<string> => {
+  if (DEMO) return DEMO_STORE_ID;
+  const supabase = await createServerSupabase();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return DEMO_STORE_ID;
+  return await ensureUserStore(user.id);
+});
+
 export const getStore = cache(async (): Promise<Store> => {
   if (DEMO) return demoStore;
-  const { data, error } = await supabase()
+  const storeId = await getActiveStoreId();
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
     .from("stores")
-    .select("id, name, industry, brand_voice, google_place_id, google_review_link")
-    .eq("id", DEMO_STORE_ID)
+    .select(
+      "id, name, industry, brand_voice, google_place_id, google_review_link",
+    )
+    .eq("id", storeId)
     .single<StoreRow>();
   if (error || !data) return demoStore;
   return {
@@ -85,15 +106,17 @@ export const getStore = cache(async (): Promise<Store> => {
 
 export const getCustomers = cache(async (): Promise<Customer[]> => {
   if (DEMO) return demoCustomers;
-  const { data, error } = await supabase()
+  const storeId = await getActiveStoreId();
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
     .from("customers")
     .select(
       "id, name, phone, email, line_id, tags, notes, total_spend_twd, visits, last_visit_at",
     )
-    .eq("store_id", DEMO_STORE_ID)
+    .eq("store_id", storeId)
     .order("last_visit_at", { ascending: false })
     .returns<CustomerRow[]>();
-  if (error || !data) return demoCustomers;
+  if (error || !data) return [];
   return data.map((r) => ({
     id: r.id,
     name: r.name,
@@ -110,16 +133,18 @@ export const getCustomers = cache(async (): Promise<Customer[]> => {
 
 export const getInvites = cache(async (): Promise<ReviewInvite[]> => {
   if (DEMO) return demoInvites;
-  const { data, error } = await supabase()
+  const storeId = await getActiveStoreId();
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
     .from("review_invites")
     .select(
       `id, customer_id, channel, status, platform, message, created_at, sent_at, reviewed_at, rating,
        customer:customers!inner(name)`,
     )
-    .eq("store_id", DEMO_STORE_ID)
+    .eq("store_id", storeId)
     .order("created_at", { ascending: false })
     .returns<InviteRow[]>();
-  if (error || !data) return demoInvites;
+  if (error || !data) return [];
   return data.map((r) => ({
     id: r.id,
     customerId: r.customer_id,
@@ -137,15 +162,17 @@ export const getInvites = cache(async (): Promise<ReviewInvite[]> => {
 
 export const getReviews = cache(async (): Promise<ReviewRecord[]> => {
   if (DEMO) return demoReviews;
-  const { data, error } = await supabase()
+  const storeId = await getActiveStoreId();
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
     .from("reviews")
     .select(
       "id, platform, author_name, rating, content, ai_reply, replied_at, created_at, invite_id",
     )
-    .eq("store_id", DEMO_STORE_ID)
+    .eq("store_id", storeId)
     .order("created_at", { ascending: false })
     .returns<ReviewRow[]>();
-  if (error || !data) return demoReviews;
+  if (error || !data) return [];
   return data.map((r) => ({
     id: r.id,
     platform: r.platform,
@@ -160,7 +187,6 @@ export const getReviews = cache(async (): Promise<ReviewRecord[]> => {
 });
 
 export async function getCustomerById(id: string): Promise<Customer | null> {
-  if (DEMO) return demoCustomers.find((c) => c.id === id) ?? null;
   const customers = await getCustomers();
   return customers.find((c) => c.id === id) ?? null;
 }
