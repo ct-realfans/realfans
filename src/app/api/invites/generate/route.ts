@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { generateInviteMessage } from "@/lib/ai";
-import { demoCustomers, demoStore } from "@/lib/mock-data";
+import { getCustomerById, getStore } from "@/lib/data";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -22,7 +22,11 @@ export async function POST(req: NextRequest) {
     );
   }
   const { customerId, channel, extraNote } = parsed.data;
-  const customer = demoCustomers.find((c) => c.id === customerId);
+
+  const [customer, store] = await Promise.all([
+    getCustomerById(customerId),
+    getStore(),
+  ]);
   if (!customer) {
     return NextResponse.json({ error: "customer_not_found" }, { status: 404 });
   }
@@ -30,12 +34,12 @@ export async function POST(req: NextRequest) {
   const result = await generateInviteMessage({
     customerName: customer.name,
     channel,
-    storeName: demoStore.name,
-    brandVoice: demoStore.brandVoice,
+    storeName: store.name,
+    brandVoice: store.brandVoice,
     visitNotes: [customer.notes, extraNote].filter(Boolean).join("；"),
     tags: customer.tags,
     totalVisits: customer.visits,
-    reviewLink: demoStore.linkReview,
+    reviewLink: store.linkReview,
   });
 
   return NextResponse.json({

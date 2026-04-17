@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Bell, Plus } from "lucide-react";
-import { demoStore } from "@/lib/mock-data";
+import { getStore } from "@/lib/data";
 
-export function DashboardHeader({
+export async function DashboardHeader({
   title,
   subtitle,
   action,
@@ -12,13 +12,14 @@ export function DashboardHeader({
   subtitle?: string;
   action?: React.ReactNode;
 }) {
+  const store = await getStore();
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-4 border-b border-border/60 bg-background/80 px-6 backdrop-blur">
       <div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span>{demoStore.name}</span>
+          <span>{store.name}</span>
           <span>·</span>
-          <span>{demoStore.industry}</span>
+          <span>{store.industry}</span>
         </div>
         <h1 className="mt-0.5 text-lg font-semibold tracking-tight">{title}</h1>
         {subtitle && (

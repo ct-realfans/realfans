@@ -2,7 +2,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { demoInvites } from "@/lib/mock-data";
+import { getInvites } from "@/lib/data";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,12 +26,13 @@ const statusLabel: Record<InviteStatus, string> = {
   declined: "未回應",
 };
 
-export default function InvitesPage() {
+export default async function InvitesPage() {
+  const invites = await getInvites();
   return (
     <>
       <DashboardHeader
         title="邀評"
-        subtitle={`共 ${demoInvites.length} 則 · AI 產生`}
+        subtitle={`共 ${invites.length} 則 · AI 產生`}
         action={
           <Button size="sm" render={<Link href="/dashboard/invites/new" />}>
             <Plus className="mr-1 size-4" />
@@ -41,7 +42,7 @@ export default function InvitesPage() {
       />
       <div className="flex-1 p-6">
         <div className="space-y-3">
-          {demoInvites.map((i) => (
+          {invites.map((i) => (
             <Card key={i.id} className="border-border/60">
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between gap-4">

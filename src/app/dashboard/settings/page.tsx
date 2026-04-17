@@ -5,10 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { demoStore } from "@/lib/mock-data";
+import { getStore } from "@/lib/data";
 import { ShieldCheck } from "lucide-react";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const store = await getStore();
   return (
     <>
       <DashboardHeader title="設定" subtitle="門店資料 · 品牌語氣 · 整合" />
@@ -19,15 +20,15 @@ export default function SettingsPage() {
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <Label>店名</Label>
-                <Input defaultValue={demoStore.name} className="mt-1" />
+                <Input defaultValue={store.name} className="mt-1" />
               </div>
               <div>
                 <Label>產業</Label>
-                <Input defaultValue={demoStore.industry} className="mt-1" />
+                <Input defaultValue={store.industry} className="mt-1" />
               </div>
               <div className="md:col-span-2">
                 <Label>Google 留評連結</Label>
-                <Input defaultValue={demoStore.linkReview} className="mt-1" />
+                <Input defaultValue={store.linkReview} className="mt-1" />
               </div>
             </div>
           </CardContent>
@@ -49,7 +50,7 @@ export default function SettingsPage() {
             </div>
             <Textarea
               rows={5}
-              defaultValue={demoStore.brandVoice}
+              defaultValue={store.brandVoice}
               className="resize-none"
             />
             <Button size="sm">儲存並套用</Button>

@@ -2,21 +2,22 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { demoReviews } from "@/lib/mock-data";
+import { getReviews } from "@/lib/data";
 import { Star, Bot } from "lucide-react";
 
-export default function ReviewsPage() {
-  const avg = (
-    demoReviews.reduce((a, r) => a + r.rating, 0) / demoReviews.length
-  ).toFixed(1);
+export default async function ReviewsPage() {
+  const reviews = await getReviews();
+  const avg = reviews.length
+    ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1)
+    : "0.0";
   return (
     <>
       <DashboardHeader
         title="評論"
-        subtitle={`本月 ${demoReviews.length} 則 · 平均 ${avg} 星`}
+        subtitle={`本月 ${reviews.length} 則 · 平均 ${avg} 星`}
       />
       <div className="flex-1 space-y-4 p-6">
-        {demoReviews.map((r) => (
+        {reviews.map((r) => (
           <Card key={r.id}>
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">

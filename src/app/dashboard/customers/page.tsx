@@ -2,16 +2,17 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { demoCustomers } from "@/lib/mock-data";
+import { getCustomers } from "@/lib/data";
 import Link from "next/link";
 import { Upload, Sparkles } from "lucide-react";
 
-export default function CustomersPage() {
+export default async function CustomersPage() {
+  const customers = await getCustomers();
   return (
     <>
       <DashboardHeader
         title="顧客"
-        subtitle={`${demoCustomers.length} 位 · 已 AI 自動打標`}
+        subtitle={`${customers.length} 位 · 已 AI 自動打標`}
         action={
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
@@ -35,7 +36,7 @@ export default function CustomersPage() {
               <div>AI 標籤</div>
               <div>動作</div>
             </div>
-            {demoCustomers.map((c) => (
+            {customers.map((c) => (
               <div
                 key={c.id}
                 className="grid grid-cols-[2fr_1fr_1fr_2fr_1fr] items-center border-b px-6 py-4 text-sm last:border-0 hover:bg-muted/30"

@@ -1,6 +1,6 @@
 import { DashboardHeader } from "@/components/dashboard/header";
 import { InviteComposer } from "@/components/dashboard/invite-composer";
-import { demoCustomers } from "@/lib/mock-data";
+import { getCustomers } from "@/lib/data";
 
 export default async function NewInvitePage({
   searchParams,
@@ -8,9 +8,10 @@ export default async function NewInvitePage({
   searchParams: Promise<{ customerId?: string }>;
 }) {
   const { customerId } = await searchParams;
+  const customers = await getCustomers();
   const initial = customerId
-    ? demoCustomers.find((c) => c.id === customerId)
-    : demoCustomers[0];
+    ? customers.find((c) => c.id === customerId)
+    : customers[0];
 
   return (
     <>
@@ -21,8 +22,8 @@ export default async function NewInvitePage({
       />
       <div className="flex-1 p-6">
         <InviteComposer
-          customers={demoCustomers}
-          initialCustomerId={initial?.id ?? demoCustomers[0].id}
+          customers={customers}
+          initialCustomerId={initial?.id ?? customers[0].id}
         />
       </div>
     </>

@@ -2,17 +2,19 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { demoInvites, demoReviews } from "@/lib/mock-data";
+import { getInvites, getReviews } from "@/lib/data";
 import Link from "next/link";
 import { Star, ArrowRight } from "lucide-react";
 
-export default function DashboardPage() {
-  const totalReviewed = demoInvites.filter((i) => i.status === "reviewed")
-    .length;
-  const rate = Math.round((totalReviewed / demoInvites.length) * 100);
-  const avgRating = (
-    demoReviews.reduce((a, r) => a + r.rating, 0) / demoReviews.length
-  ).toFixed(1);
+export default async function DashboardPage() {
+  const [invites, reviews] = await Promise.all([getInvites(), getReviews()]);
+  const totalReviewed = invites.filter((i) => i.status === "reviewed").length;
+  const rate = invites.length
+    ? Math.round((totalReviewed / invites.length) * 100)
+    : 0;
+  const avgRating = reviews.length
+    ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1)
+    : "0.0";
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function DashboardPage() {
         <div className="grid gap-4 md:grid-cols-4">
           <StatCard
             label="AI 邀評已送出"
-            value={String(demoInvites.length)}
+            value={String(invites.length)}
             delta={42}
             hint="相較上月"
           />
@@ -66,7 +68,7 @@ export default function DashboardPage() {
                 </Link>
               </div>
               <div className="space-y-4">
-                {demoReviews.map((r) => (
+                {reviews.map((r) => (
                   <div
                     key={r.id}
                     className="rounded-lg border border-border/60 bg-muted/30 p-4"
