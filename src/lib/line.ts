@@ -1,6 +1,10 @@
+import { createHmac, timingSafeEqual } from "node:crypto";
+
 /**
- * LINE Messaging API — push message only (MVP).
- * Docs: https://developers.line.biz/en/reference/messaging-api/#send-push-message
+ * LINE Messaging API wrappers.
+ * - pushLineText: send a message to a user who has added the OA as friend
+ * - verifyLineSignature: validate webhook authenticity
+ * - fetchLineProfile: resolve display name for a new follower
  *
  * The `to` parameter must be a LINE User ID (starts with "U..."), which you
  * receive via webhook events (friend add, message) — NOT the @handle the user
@@ -69,4 +73,71 @@ export async function pushLineText(params: {
       error: err instanceof Error ? err.message : String(err),
     };
   }
+}
+
+export function verifyLineSignature(
+  rawBody: string,
+  signatureHeader: string | null,
+  channelSecret: string,
+): boolean {
+  if (!signatureHeader) return false;
+  const expected = createHmac("sha256", channelSecret)
+    .update(rawBody)
+    .digest("base64");
+  const a = Buffer.from(signatureHeader);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
+
+export interface LineProfile {
+  userId: string;
+  displayName: string;
+  pictureUrl?: string;
+  statusMessage?: string;
+  language?: string;
+}
+
+export async function fetchLineProfile(params: {
+  channelAccessToken: string;
+  userId: string;
+}): Promise<LineProfile | null> {
+  try {
+    const res = await fetch(
+      `https://api.line.me/v2/bot/profile/${encodeURIComponent(params.userId)}`,
+      {
+        headers: { Authorization: `Bearer ${params.channelAccessToken}` },
+      },
+    );
+    if (!res.ok) return null;
+    return (await res.json()) as LineProfile;
+  } catch {
+    return null;
+  }
+}
+
+export interface LineWebhookEvent {
+  type: string;
+  source?: { type: string; userId?: string };
+  message?: { type: string; text?: string; id: string };
+  replyToken?: string;
+  timestamp?: number;
+}
+
+export async function replyLineText(params: {
+  channelAccessToken: string;
+  replyToken: string;
+  text: string;
+}): Promise<void> {
+  await fetch("https://api.line.me/v2/bot/message/reply", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${params.channelAccessToken}`,
+    },
+    body: JSON.stringify({
+      replyToken: params.replyToken,
+      messages: [{ type: "text", text: params.text }],
+    }),
+  });
 }
