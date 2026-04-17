@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RealFans 真粉 — 用 AI 合法取代粉絲多 · Pitch Deck</title>
+<meta name="description" content="台灣小商家的 AI 真實口碑引擎 — 粉絲多的合法替代品。預期打下 NT$180M ARR 的白帽聲量 SaaS。" />
+<meta property="og:title" content="RealFans 真粉 · Pitch Deck" />
+<meta property="og:description" content="用 AI 把真顧客變成五星評論 · 合法、可稽核、更便宜" />
+<meta property="og:image" content="./logo.png" />
+<link rel="icon" href="./logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #0a0f0c;
+  --bg-2: #0f1612;
+  --fg: #f3f6f4;
+  --muted: #8b9791;
+  --emerald: #10b981;
+  --emerald-bright: #34d399;
+  --teal: #14b8a6;
+  --rose: #f43f5e;
+  --amber: #f59e0b;
+  --surface: #121a15;
+  --surface-2: #1a2520;
+  --border: #1f2a24;
+  --border-hi: #2a3830;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans TC', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: 'JetBrains Mono', 'SF Mono', monospace; }
+
+/* Layout */
+section {
+  padding: 6rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+.narrow { max-width: 780px; margin: 0 auto; }
+
+/* Nav */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(14px);
+  background: rgba(10, 15, 12, 0.75);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+}
+.brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+.brand img { width: 24px; height: 24px; border-radius: 6px; }
+.brand-zh { color: var(--muted); font-weight: 500; font-size: 0.85rem; }
+.nav-links { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+.nav-links a { color: inherit; text-decoration: none; }
+.nav-links a:hover { color: var(--fg); }
+.nav-cta {
+  background: var(--emerald);
+  color: #052e1e;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+/* Hero */
+.hero {
+  padding: 7rem 1.5rem 6rem;
+  background:
+    radial-gradient(900px 400px at 20% 10%, rgba(16,185,129,0.18), transparent 50%),
+    radial-gradient(700px 500px at 85% 30%, rgba(20,184,166,0.12), transparent 55%),
+    var(--bg);
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  border: 1px solid rgba(16,185,129,0.3);
+  background: rgba(16,185,129,0.08);
+  color: var(--emerald-bright);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-weight: 900;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+.hero h1 .grad {
+  background: linear-gradient(135deg, #34d399 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero p.sub {
+  font-size: 1.25rem;
+  color: var(--muted);
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+}
+.hero-stat {
+  border-left: 2px solid var(--emerald);
+  padding-left: 1rem;
+}
+.hero-stat .v {
+  font-size: 2rem; font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.hero-stat .k { font-size: 0.8rem; font-weight: 500; }
+.hero-stat .d { font-size: 0.72rem; color: var(--muted); }
+@media (max-width: 720px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Section headers */
+.section-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--emerald-bright);
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+.section-h {
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section-lead {
+  color: var(--muted);
+  font-size: 1.15rem;
+  max-width: 680px;
+  margin-bottom: 3rem;
+}
+
+/* Villain section */
+.villain {
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.villain-card {
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.villain-quote {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  border-left: 3px solid var(--rose);
+  padding-left: 1.2rem;
+  color: var(--fg);
+  margin-bottom: 1.2rem;
+}
+.villain-meta { color: var(--muted); font-size: 0.85rem; }
+
+.badge-danger {
+  display: inline-block;
+  background: rgba(244, 63, 94, 0.12);
+  color: #fda4af;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.risk-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+.risk-card h4 {
+  color: #fda4af;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.risk-card p { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 720px) { .risk-grid { grid-template-columns: 1fr; } }
+
+/* Compare table */
+.compare {
+  border: 1px solid var(--border-hi);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--surface);
+  margin-top: 2rem;
+}
+.compare-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.4fr 1.4fr;
+  border-top: 1px solid var(--border);
+}
+.compare-row:first-child { border-top: 0; }
+.compare-cell { padding: 1rem 1.4rem; font-size: 0.92rem; }
+.compare-head {
+  background: var(--surface-2);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.compare-head .fans { color: #fda4af; }
+.compare-head .real { color: var(--emerald-bright); }
+.compare-cell.a { color: var(--muted); border-left: 1px solid var(--border); }
+.compare-cell.b { color: var(--fg); border-left: 1px solid var(--border); }
+@media (max-width: 720px) {
+  .compare-row { grid-template-columns: 1fr; }
+  .compare-cell.a, .compare-cell.b { border-left: 0; border-top: 1px solid var(--border); }
+}
+
+/* Product */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.product-card .icon {
+  width: 40px; height: 40px;
+  border-radius: 0.5rem;
+  background: rgba(16,185,129,0.1);
+  color: var(--emerald-bright);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.product-card p { color: var(--muted); font-size: 0.92rem; }
+@media (max-width: 720px) { .product-grid { grid-template-columns: 1fr; } }
+
+/* Screenshots */
+.screenshots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.screenshot {
+  border: 1px solid var(--border-hi);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--surface);
+}
+.screenshot img { width: 100%; display: block; }
+.screenshot-label {
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.screenshot-label strong { color: var(--emerald-bright); }
+@media (max-width: 720px) { .screenshots { grid-template-columns: 1fr; } }
+
+/* Pricing */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.price-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+.price-card.highlight {
+  border-color: var(--emerald);
+  box-shadow: 0 0 0 1px var(--emerald), 0 20px 40px -20px rgba(16,185,129,0.4);
+}
+.price-card .ribbon {
+  position: absolute; top: -12px; left: 1.2rem;
+  background: var(--emerald); color: #052e1e;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.7rem; font-weight: 600;
+}
+.price-card .name { font-size: 1.1rem; font-weight: 600; }
+.price-card .tag { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+.price-card .amt {
+  font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+}
+.price-card .amt small { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+.price-card ul { list-style: none; margin-top: 1rem; }
+.price-card li {
+  padding: 0.3rem 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+.price-card li:before {
+  content: "✓"; color: var(--emerald);
+  position: absolute; left: 0;
+}
+@media (max-width: 720px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+/* Moat */
+.moat-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.moat-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.2rem 1.5rem;
+}
+.moat-item .n {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--emerald-bright);
+  font-weight: 700;
+  font-size: 0.85rem;
+  min-width: 2rem;
+}
+.moat-item h4 { font-size: 1rem; margin-bottom: 0.3rem; }
+.moat-item p { color: var(--muted); font-size: 0.9rem; }
+
+/* Flow */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin: 3rem 0 1rem;
+  font-size: 0.82rem;
+  text-align: center;
+}
+.flow-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem 0.5rem;
+  position: relative;
+}
+.flow-step:not(:last-child):after {
+  content: "→";
+  position: absolute;
+  right: -0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--emerald);
+  font-weight: 700;
+}
+.flow-step strong { color: var(--emerald-bright); display: block; margin-top: 0.3rem; }
+@media (max-width: 720px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow-step:not(:last-child):after {
+    content: "↓"; right: 50%; top: auto; bottom: -1rem; transform: translateX(50%);
+  }
+}
+
+/* Market numbers */
+.market-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.market-card {
+  background: linear-gradient(160deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border-hi);
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+}
+.market-card .label { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.market-card .big {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #34d399, #14b8a6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0.5rem 0;
+}
+.market-card p { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 720px) { .market-grid { grid-template-columns: 1fr; } }
+
+/* Financial projection */
+.proj {
+  margin-top: 2rem;
+  border: 1px solid var(--border-hi);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.proj-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 1rem 1.4rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.proj-row:first-child { border-top: 0; background: var(--surface-2); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.proj-row strong { color: var(--emerald-bright); }
+
+/* Traction */
+.traction-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.check-card {
+  background: rgba(16,185,129,0.05);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 0.75rem;
+  padding: 1.2rem 1.5rem;
+}
+.check-card h4 {
+  font-size: 0.95rem;
+  color: var(--emerald-bright);
+  margin-bottom: 0.4rem;
+}
+.check-card h4:before { content: "✓ "; }
+.check-card p { color: var(--muted); font-size: 0.88rem; }
+@media (max-width: 720px) { .traction-grid { grid-template-columns: 1fr; } }
+
+/* Ask */
+.ask {
+  background:
+    radial-gradient(700px 300px at 30% 30%, rgba(16,185,129,0.12), transparent 50%),
+    var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.ask-amount {
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #34d399, #14b8a6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1;
+  margin: 1rem 0;
+}
+.ask-break {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+  text-align: left;
+}
+.ask-break .item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.2rem;
+}
+.ask-break .item .label { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.ask-break .item .value { font-size: 1.1rem; font-weight: 600; }
+@media (max-width: 720px) { .ask-break { grid-template-columns: repeat(2, 1fr); } }
+
+/* Vision */
+.timeline {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.tl-item {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.tl-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.tl-item .when {
+  color: var(--emerald-bright);
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.tl-item h4 { margin-bottom: 0.3rem; }
+.tl-item p { color: var(--muted); font-size: 0.92rem; }
+@media (max-width: 720px) {
+  .tl-item { grid-template-columns: 1fr; gap: 0.3rem; }
+}
+
+/* Footer */
+footer {
+  padding: 3rem 1.5rem 4rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--emerald-bright); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.slash { color: var(--emerald); margin: 0 0.5rem; }
+
+/* Responsive adjustments */
+@media (max-width: 720px) {
+  section { padding: 4rem 1.25rem; }
+}
+
+.screen-reader-only { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" style="color: inherit; text-decoration: none;">
+      <img src="./logo.png" alt="RealFans" />
+      RealFans <span class="brand-zh">· 真粉</span>
+    </a>
+    <div class="nav-links">
+      <a href="#villain">粉絲多</a>
+      <a href="#solution">解法</a>
+      <a href="#product">產品</a>
+      <a href="#market">市場</a>
+      <a href="#ask">募資</a>
+    </div>
+    <a href="https://realfans-yazelins-projects.vercel.app/" class="nav-cta" target="_blank" rel="noreferrer">實際產品 →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <span class="hero-tag">● 2026 Q2 Seed · 台灣 SMB SaaS</span>
+    <h1>
+      台灣最賺錢的科技業，<br />
+      是一家賣假評論的公司。<br />
+      <span class="grad">我們要合法、用 AI、把它的客戶拿走。</span>
+    </h1>
+    <p class="sub">
+      RealFans 真粉是給台灣 80 萬家小商家的 AI 真實口碑引擎。不買假粉、不刷假評論 —
+      用 AI 把店家**既有的真顧客**轉成 Google 五星、IG 討論、LINE 回購。
+      合法、可稽核、效果比假的好 5–10 倍。
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="v">NT$180M</div>
+        <div class="k">ARR 目標</div>
+        <div class="d">Year 3 · 5,000 家商家</div>
+      </div>
+      <div class="hero-stat">
+        <div class="v">12×</div>
+        <div class="k">留評率提升</div>
+        <div class="d">相較自然留評</div>
+      </div>
+      <div class="hero-stat">
+        <div class="v">100%</div>
+        <div class="k">合規率</div>
+        <div class="d">Google / Meta / 公平會</div>
+      </div>
+      <div class="hero-stat">
+        <div class="v">1 日</div>
+        <div class="k">MVP 上線</div>
+        <div class="d">1 位創辦人 + Claude</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VILLAIN -->
+<section class="villain" id="villain">
+  <div class="container">
+    <span class="section-tag">敵人 · THE VILLAIN</span>
+    <h2 class="section-h">「粉絲多」— 台灣地下 SaaS 的王者</h2>
+    <p class="section-lead">
+      fansdoor.com 號稱 200 萬會員網絡，把真人帳號跟機器混合，
+      賣你「Google 五星、FB 粉絲、YT 訂閱、部落格流量、FB 投票灌票」。
+      台灣 SMB 每年把數千萬新台幣丟進這個黑市。
+    </p>
+
+    <div class="villain-card">
+      <p class="villain-quote">
+        「YouTube 觀看 $0.2 次 · FB 直播 $5/人/小時 · 台灣網頁流量 $167/日」
+      </p>
+      <div class="villain-meta">— fansdoor.com 公開價目 · 現金小額、LINE 客服</div>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-card">
+        <span class="badge-danger">法律</span>
+        <h4>美國 FTC 每則 $51,744</h4>
+        <p>2024 起對假評論開罰；台灣《公平交易法》第 21 條同樣禁止不實表示。粉絲多客戶一旦被檢舉，每則評論就是一個案件。</p>
+      </div>
+      <div class="risk-card">
+        <span class="badge-danger">平台封鎖</span>
+        <h4>Google / Meta 演算法逐年加強</h4>
+        <p>假粉帳號被下架、Google Business 降權甚至停用、TikTok shadowban。買完反而見不到人。</p>
+      </div>
+      <div class="risk-card">
+        <span class="badge-danger">ROI 幻覺</span>
+        <h4>假粉絲不買單</h4>
+        <p>粉絲數變漂亮，但點閱、轉換、LTV 紋風不動。客戶花錢買「心理安慰劑」而已。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="container">
+    <span class="section-tag">解法 · SOLUTION</span>
+    <h2 class="section-h">不用買假的 — 用 AI 把真顧客放大就好。</h2>
+    <p class="section-lead">
+      小商家的痛點從來不是「沒聲量」，是「不會把真顧客轉成聲量」。
+      結帳走的客人 90% 不會主動留評 — 但如果 15 分鐘後收到一則
+      AI 寫的個人化 LINE 訊息，他會。
+    </p>
+
+    <div class="compare">
+      <div class="compare-row compare-head">
+        <div class="compare-cell">項目</div>
+        <div class="compare-cell fans">粉絲多 Fansdoor</div>
+        <div class="compare-cell real">RealFans 真粉</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell">Google 五星評論</div>
+        <div class="compare-cell a">向 IP 農場買 · 違法 + 封店風險</div>
+        <div class="compare-cell b">AI 自動邀請真實顧客 · 合規</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell">FB / IG 粉絲</div>
+        <div class="compare-cell a">假帳號人頭 · 0 互動</div>
+        <div class="compare-cell b">AI 內容工廠吸引真人追蹤</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell">顧客留言處理</div>
+        <div class="compare-cell a">不提供</div>
+        <div class="compare-cell b">AI 回覆代理人 · 24/7 品牌語氣</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell">資料所有權</div>
+        <div class="compare-cell a">客戶名單留在工作室</div>
+        <div class="compare-cell b">全部在商家自己的 Supabase</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell">月費（小商家）</div>
+        <div class="compare-cell a">NT$3,000–15,000+ 按項計費</div>
+        <div class="compare-cell b">NT$990 起 · 首月 NT$99</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell">合規與稽核</div>
+        <div class="compare-cell a">違反 Google / Meta / 公平法</div>
+        <div class="compare-cell b">compliance_events 留軌跡 · 可對公平會舉證</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">結帳 / 用餐<strong>POS / 手動</strong></div>
+      <div class="flow-step">匯入顧客<strong>CSV / LINE OA</strong></div>
+      <div class="flow-step">AI 生成訊息<strong>Claude Sonnet 4.6</strong></div>
+      <div class="flow-step">LINE 推送<strong>Messaging API</strong></div>
+      <div class="flow-step">Google 五星<strong>+ AI 自動回覆</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <span class="section-tag">產品 · PRODUCT</span>
+    <h2 class="section-h">已可用的 6 個 AI 模組</h2>
+    <p class="section-lead">
+      不是 PPT、不是 Figma — 2026-04 內建置完成並上線 Vercel。
+      登入 <a href="https://realfans-yazelins-projects.vercel.app/login" style="color: var(--emerald-bright);">realfans-yazelins-projects.vercel.app</a>
+      可直接操作。
+    </p>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="icon">✨</div>
+        <h3>AI 白帽邀評引擎</h3>
+        <p>根據顧客消費備註、回訪次數、標籤，AI 產出 LINE / SMS / Email 個人化邀評訊息。合規護欄內建：不誘導好評、不捏造、含退訂選項。</p>
+      </div>
+      <div class="product-card">
+        <div class="icon">🤖</div>
+        <h3>AI 回覆代理人</h3>
+        <p>Google / FB / IG 評論 24/7 AI 自動草擬回覆，品牌語氣一致。低星（≤3）強制人工審核。所有回覆寫入 compliance audit log。</p>
+      </div>
+      <div class="product-card">
+        <div class="icon">📈</div>
+        <h3>月度品牌健康度 PDF</h3>
+        <p>AI 月底自動產出 headline + 做得好 + 需改進 + 下月行動清單。點一下下載 PDF，直接寄給老闆或股東。</p>
+      </div>
+      <div class="product-card">
+        <div class="icon">🎯</div>
+        <h3>LINE OA 深度整合</h3>
+        <p>Messaging API Push + Webhook 自動綁定好友成顧客。顧客加 LINE 的瞬間自動建 customer record、回歡迎訊息。</p>
+      </div>
+      <div class="product-card">
+        <div class="icon">🔐</div>
+        <h3>Supabase Auth + 嚴格 RLS</h3>
+        <p>Email magic link 登入、首次登入自動複製 demo 資料 onboarding、Row-Level Security 確保多租戶隔離。</p>
+      </div>
+      <div class="product-card">
+        <div class="icon">📊</div>
+        <h3>合規稽核軌跡</h3>
+        <p>每次 AI 邀評、每次回覆、每次 LINE 互動都寫入 compliance_events 表。公平會或 Google 查帳能直接匯出。</p>
+      </div>
+    </div>
+
+    <div class="screenshots">
+      <div class="screenshot">
+        <img src="./screenshots/landing.png" alt="Landing page" />
+        <div class="screenshot-label"><strong>首頁</strong> · 對打粉絲多 · 定位、對比表、CTA</div>
+      </div>
+      <div class="screenshot">
+        <img src="./screenshots/dashboard.png" alt="Dashboard" />
+        <div class="screenshot-label"><strong>Dashboard 總覽</strong> · 統計 + AI 週建議 + 最新評論</div>
+      </div>
+      <div class="screenshot">
+        <img src="./screenshots/composer.png" alt="AI invite composer" />
+        <div class="screenshot-label"><strong>AI 邀評生成</strong> · 選顧客 + 通路 + 合規護欄</div>
+      </div>
+      <div class="screenshot">
+        <img src="./screenshots/ai-result.png" alt="AI result" />
+        <div class="screenshot-label"><strong>LINE 氣泡預覽</strong> · 一鍵真送 · 進 Supabase + 寫 audit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS MODEL -->
+<section>
+  <div class="container">
+    <span class="section-tag">商業模式 · BIZ MODEL</span>
+    <h2 class="section-h">訂閱制 SaaS · 目標 ARPA NT$3,000/月</h2>
+    <p class="section-lead">
+      三層 freemium-to-enterprise 價格錨點，主力在 Pro 層。
+      年繳 20% off + 首月 NT$99 試用直接斷粉絲多客源。
+    </p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="name">Starter</div>
+        <div class="tag">單店小商家</div>
+        <div class="amt">NT$990<small>/月</small></div>
+        <ul>
+          <li>每月 300 封 AI 邀評</li>
+          <li>Google / FB 評論管理</li>
+          <li>AI 自動回覆（上限 300）</li>
+          <li>基礎儀表板</li>
+        </ul>
+      </div>
+      <div class="price-card highlight">
+        <span class="ribbon">主力 · 70% 客戶</span>
+        <div class="name">Pro</div>
+        <div class="tag">成長期商家</div>
+        <div class="amt">NT$3,990<small>/月</small></div>
+        <ul>
+          <li>每月 2,000 封 AI 邀評</li>
+          <li>LINE OA 深度整合</li>
+          <li>AI 內容工廠（週 30 則）</li>
+          <li>在地 SEO 雷達 + 競品監控</li>
+          <li>每月 PDF 品牌健康度報告</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="name">旗艦</div>
+        <div class="tag">多門店 / 連鎖</div>
+        <div class="amt">NT$9,990<small>/月</small></div>
+        <ul>
+          <li>無上限邀評與回覆</li>
+          <li>多門店 + SSO</li>
+          <li>API + POS 深度串接</li>
+          <li>專屬顧問月一會</li>
+          <li>白牌報告</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 4rem; margin-bottom: 1.2rem; font-size: 1.3rem;">單位經濟學</h3>
+    <div class="proj">
+      <div class="proj-row">
+        <div>指標</div><div>Starter</div><div>Pro</div><div>旗艦</div><div>加權平均</div>
+      </div>
+      <div class="proj-row">
+        <div>月費 ARPA</div><div>NT$990</div><div>NT$3,990</div><div>NT$9,990</div><div><strong>NT$3,000</strong></div>
+      </div>
+      <div class="proj-row">
+        <div>邊際成本（AI + 基礎設施）</div><div>NT$120</div><div>NT$400</div><div>NT$900</div><div>NT$350</div>
+      </div>
+      <div class="proj-row">
+        <div>毛利率</div><div>88%</div><div>90%</div><div>91%</div><div><strong>88%</strong></div>
+      </div>
+      <div class="proj-row">
+        <div>預估 CAC（LINE/SEO/業務）</div><div>NT$800</div><div>NT$3,500</div><div>NT$15,000</div><div>NT$3,800</div>
+      </div>
+      <div class="proj-row">
+        <div>Payback 期</div><div>1 個月</div><div>1 個月</div><div>2 個月</div><div><strong>1.3 個月</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <span class="section-tag">市場 · MARKET</span>
+    <h2 class="section-h">只要台灣 SMB 的 1%，就是 NT$36M ARR</h2>
+
+    <div class="market-grid">
+      <div class="market-card">
+        <div class="label">TAM</div>
+        <div class="big">1.66M</div>
+        <p>台灣中小企業總數（國發會 2024 統計）。長期潛在市場。</p>
+      </div>
+      <div class="market-card">
+        <div class="label">SAM</div>
+        <div class="big">300K</div>
+        <p>有 Google Business + 在意評論的實體商家（F&B、美容、診所、補教）。NT$10.8B ARR 上限。</p>
+      </div>
+      <div class="market-card">
+        <div class="label">SOM (Year 3)</div>
+        <div class="big">5,000</div>
+        <p>目標滲透率 1.67%（Podium 在美國類似階段是 3-5%）。對應 NT$180M ARR。</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 4rem; margin-bottom: 1.2rem; font-size: 1.3rem;">為什麼是現在 · Why Now</h3>
+    <div class="moat-list">
+      <div class="moat-item">
+        <div class="n">WHY.1</div>
+        <div>
+          <h4>AI 讓個人化變便宜</h4>
+          <p>2024-25 以前，一封個人化訊息要雇一個小編半天。現在 Claude Sonnet 一次 NT$0.5、2 秒產出。個人化成本 = 10,000× 便宜。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">WHY.2</div>
+        <div>
+          <h4>FTC 新規 + 公平會升級</h4>
+          <p>美國 FTC 2024-10 生效：每則假評論罰 USD $51,744。台灣公平會 2025 起鎖定電商平台與代操公司。粉絲多的存在進入倒數計時。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">WHY.3</div>
+        <div>
+          <h4>LINE 滲透率 95% · 但海外 SaaS 沒整合</h4>
+          <p>Podium / Birdeye / Yext 都不做 LINE。台灣小商家最主要的顧客通路 = 我們天然的護城河。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">WHY.4</div>
+        <div>
+          <h4>Google Business Review Request API 開放</h4>
+          <p>2025 起可合法用官方 API 邀評（whitelist）。我們直接站在 Google 認可的一側。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOAT -->
+<section>
+  <div class="container">
+    <span class="section-tag">護城河 · MOAT</span>
+    <h2 class="section-h">海外 SaaS 不會做 · 本土代操也追不上</h2>
+
+    <div class="moat-list">
+      <div class="moat-item">
+        <div class="n">MOAT.1</div>
+        <div>
+          <h4>繁體中文 × 台灣在地 prompt 庫</h4>
+          <p>春節、中秋、颱風假、地震關懷 — 海外 SaaS 寫不出台灣人會讀的語氣。我們每一則互動都在訓練品牌語氣模型。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">MOAT.2</div>
+        <div>
+          <h4>LINE OA Native + POS 深度整合</h4>
+          <p>iCHEF、Square、PosCat、iPOS 等台灣 POS 直連，一旦切進去，替換成本極高（顧客資料、歷史評論、品牌語氣都搬不走）。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">MOAT.3</div>
+        <div>
+          <h4>合規背書 · compliance_events 稽核軌跡</h4>
+          <p>每次 AI 操作都寫 audit log，連 prompt 版本都留底。公平會或 Google 查帳能秒匯出。粉絲多根本拿不出這種東西。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">MOAT.4</div>
+        <div>
+          <h4>資料飛輪 · 越多店越準</h4>
+          <p>每家店的顧客偏好 × 回饋成效 → 訓練越來越精準的在地化 AI。1,000 家店後，新店第一天的邀評轉換率就贏過單打獨鬥 6 個月的店。</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="n">MOAT.5</div>
+        <div>
+          <h4>相對粉絲多：正當性</h4>
+          <p>粉絲多永遠不能上 PChome 廣告、不能上電視、不能接政府標案。我們可以。這是永久性單向優勢。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACTION -->
+<section style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <span class="section-tag">進度 · TRACTION</span>
+    <h2 class="section-h">MVP 已上線 · 整條閉環實測完成</h2>
+    <p class="section-lead">
+      2026-04-17 建置完成並部署到 Vercel。1 位創辦人 + Claude Code
+      在 1 個完整工作日內跑通從 AI 生成到 LINE 真送的全流程。
+    </p>
+
+    <div class="traction-grid">
+      <div class="check-card">
+        <h4>AI 邀評引擎</h4>
+        <p>Claude Sonnet 4.6 via Vercel AI Gateway · OIDC 免 key · mock fallback</p>
+      </div>
+      <div class="check-card">
+        <h4>AI 回覆代理人</h4>
+        <p>≤3 星強制人工審核 · Google Policy 護欄 · compliance audit</p>
+      </div>
+      <div class="check-card">
+        <h4>LINE Push API 整合</h4>
+        <p>真實發送到用戶手機 · webhook 自動綁定好友為 customer</p>
+      </div>
+      <div class="check-card">
+        <h4>Supabase + Auth</h4>
+        <p>RLS + magic link + 首次登入 onboarding 自動 clone demo 資料</p>
+      </div>
+      <div class="check-card">
+        <h4>月度品牌健康度 PDF</h4>
+        <p>AI 生成 headline + 3 段分析 + 5 項行動 · 點擊即下載</p>
+      </div>
+      <div class="check-card">
+        <h4>Vercel Production 部署</h4>
+        <p>Fluid Compute · Cron ready · Preview URL per PR · Edge Middleware</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 3rem; text-align: center; color: var(--muted);">
+      原始碼公開於 GitHub：
+      <a href="https://github.com/ct-realfans/realfans" target="_blank" style="color: var(--emerald-bright);">github.com/ct-realfans/realfans</a>
+    </p>
+  </div>
+</section>
+
+<!-- FINANCIAL PROJECTION -->
+<section>
+  <div class="container">
+    <span class="section-tag">財務預測 · PROJECTIONS</span>
+    <h2 class="section-h">3 年從 0 到 NT$180M ARR</h2>
+
+    <div class="proj">
+      <div class="proj-row">
+        <div>年度</div>
+        <div>付費商家</div>
+        <div>ARPA × 12</div>
+        <div>ARR</div>
+        <div>累計現金需求</div>
+      </div>
+      <div class="proj-row">
+        <div><strong>Year 1 (2026)</strong></div>
+        <div>500</div>
+        <div>NT$36K</div>
+        <div>NT$18M</div>
+        <div>NT$8M (Seed)</div>
+      </div>
+      <div class="proj-row">
+        <div><strong>Year 2 (2027)</strong></div>
+        <div>1,800</div>
+        <div>NT$36K</div>
+        <div>NT$64.8M</div>
+        <div>+ NT$40M (A 輪)</div>
+      </div>
+      <div class="proj-row">
+        <div><strong>Year 3 (2028)</strong></div>
+        <div>5,000</div>
+        <div>NT$36K</div>
+        <div>NT$180M</div>
+        <div>Cashflow positive</div>
+      </div>
+      <div class="proj-row">
+        <div><strong>Year 4 (2029)</strong></div>
+        <div>12,000 TW + SEA</div>
+        <div>NT$36K</div>
+        <div>NT$432M</div>
+        <div>M&A 或 IPO 區間</div>
+      </div>
+    </div>
+
+    <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem;">
+      假設：月流失 3%、毛利 88%、業務頭兩年 CAC payback &lt; 3 個月、
+      Podium/Birdeye 類比案例滲透曲線。
+    </p>
+  </div>
+</section>
+
+<!-- ASK -->
+<section class="ask" id="ask">
+  <div class="container" style="max-width: 900px;">
+    <span class="section-tag">募資 · THE ASK</span>
+    <h2 class="section-h" style="margin: 0 auto;">Seed 輪 · 12 個月跑道</h2>
+    <div class="ask-amount">NT$8M</div>
+    <p style="color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto;">
+      目標：Month 12 達 500 家付費商家（MRR NT$1.5M / ARR NT$18M），
+      解鎖 Series A。
+    </p>
+
+    <div class="ask-break">
+      <div class="item">
+        <div class="label">Eng</div>
+        <div class="value">2 位全端工程師</div>
+        <p style="color: var(--muted); font-size: 0.82rem; margin-top: 0.4rem;">POS 整合、Webhook 穩定性、報表引擎</p>
+      </div>
+      <div class="item">
+        <div class="label">GTM</div>
+        <div class="value">1 位業務/CS</div>
+        <p style="color: var(--muted); font-size: 0.82rem; margin-top: 0.4rem;">B2B 電訪、onboarding、客戶成功</p>
+      </div>
+      <div class="item">
+        <div class="label">設計</div>
+        <div class="value">兼職品牌與 UX</div>
+        <p style="color: var(--muted); font-size: 0.82rem; margin-top: 0.4rem;">官網改版、報告模板、LINE 素材</p>
+      </div>
+      <div class="item">
+        <div class="label">基礎設施</div>
+        <div class="value">Vercel + Supabase + AI</div>
+        <p style="color: var(--muted); font-size: 0.82rem; margin-top: 0.4rem;">預估年支出 NT$800K</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section>
+  <div class="container">
+    <span class="section-tag">願景 · VISION</span>
+    <h2 class="section-h">從邀評引擎，成為 SMB 的 AI 成長作業系統</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="when">Year 1 · 2026</div>
+        <div>
+          <h4>台灣 F&B + 美容業 AI 真實口碑引擎</h4>
+          <p>500 家付費商家，主力咖啡廳、早午餐、美髮工作室、牙科診所、健身房。NT$18M ARR。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="when">Year 2 · 2027</div>
+        <div>
+          <h4>擴充成「品牌健康」SaaS</h4>
+          <p>AI 內容工廠、在地 SEO、廣告代操（Meta / Google Ads 自動化）、客戶 CRM。垂直整合營收通路。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="when">Year 3 · 2028</div>
+        <div>
+          <h4>台灣 5,000 店 + 日本 / 東南亞試點</h4>
+          <p>NT$180M ARR。日本（LINE 同樣 95% 滲透）、韓國 KakaoTalk、泰國 LINE 市場。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="when">Year 4+ · 2029+</div>
+        <div>
+          <h4>區域 SMB 成長作業系統</h4>
+          <p>M&A target for POS 業者（iCHEF、Square Asia）或區域 CRM（Salesforce APAC）· 或獨立走上市場。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section style="padding-bottom: 2rem;">
+  <div class="narrow" style="text-align: center;">
+    <h2 class="section-h">為什麼是現在、為什麼是我們</h2>
+    <p style="font-size: 1.2rem; line-height: 1.7; color: var(--muted); margin-top: 1rem;">
+      「粉絲多」一直是個未解的台灣科技業矛盾 —
+      最賺錢的 SMB SaaS 居然是違法的。<br /><br />
+      過去沒人做合法替代品，因為「寫一則個人化邀評」成本太高。<br />
+      2026 的 AI 把這個成本打到零。<br /><br />
+      <strong style="color: var(--fg);">我們不只比粉絲多便宜，還比它好 10 倍，而且合法。</strong><br />
+      這扇窗只會在 2026 開 12-18 個月。
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <strong>RealFans 真粉</strong>
+    <span class="slash">/</span>
+    <a href="https://realfans-yazelins-projects.vercel.app/">產品 Demo</a>
+    <span class="slash">/</span>
+    <a href="https://github.com/ct-realfans/realfans">GitHub</a>
+    <span class="slash">/</span>
+    <a href="mailto:hello@realfans.tw">hello@realfans.tw</a>
+  </p>
+  <p style="margin-top: 0.6rem;">
+    © 2026 RealFans · 不買假粉、不刷假評論 — 因為你的生意值得真的
+  </p>
+</footer>
+
+</body>
+</html>
