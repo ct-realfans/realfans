@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { brand } from "@/lib/brand";
 
 export function SiteFooter() {
@@ -6,7 +7,13 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 font-semibold">
-            <span className="inline-block size-6 rounded-md bg-gradient-to-br from-emerald-400 to-teal-600" />
+            <Image
+              src="/brand/line-avatar-512.png"
+              alt={brand.name}
+              width={24}
+              height={24}
+              className="size-6 rounded-md"
+            />
             {brand.name} · {brand.nameZh}
           </div>
           <p className="mt-3 text-sm text-muted-foreground">

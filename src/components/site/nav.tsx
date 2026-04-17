@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { brand } from "@/lib/brand";
 
@@ -7,7 +8,14 @@ export function SiteNav() {
     <header className="sticky top-0 z-40 border-b border-border/50 bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="inline-block size-6 rounded-md bg-gradient-to-br from-emerald-400 to-teal-600" />
+          <Image
+            src="/brand/line-avatar-512.png"
+            alt={brand.name}
+            width={24}
+            height={24}
+            className="size-6 rounded-md"
+            priority
+          />
           <span className="tracking-tight">
             {brand.name}
             <span className="ml-1 text-muted-foreground">· {brand.nameZh}</span>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { LoginForm } from "./login-form";
 import { brand } from "@/lib/brand";
 
@@ -12,7 +13,14 @@ export default async function LoginPage({
     <div className="flex min-h-screen flex-1 items-center justify-center bg-muted/30 p-6">
       <div className="w-full max-w-md">
         <Link href="/" className="mb-8 flex items-center justify-center gap-2 font-semibold">
-          <span className="inline-block size-7 rounded-md bg-gradient-to-br from-emerald-400 to-teal-600" />
+          <Image
+            src="/brand/line-avatar-512.png"
+            alt={brand.name}
+            width={28}
+            height={28}
+            className="size-7 rounded-md"
+            priority
+          />
           <span className="tracking-tight">
             {brand.name}
             <span className="ml-1 text-muted-foreground">· {brand.nameZh}</span>

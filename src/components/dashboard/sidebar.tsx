@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/app/auth/actions";
@@ -32,7 +33,14 @@ export function DashboardSidebar({ userEmail }: { userEmail: string }) {
         href="/"
         className="mb-6 flex items-center gap-2 px-2 font-semibold"
       >
-        <span className="inline-block size-6 rounded-md bg-gradient-to-br from-emerald-400 to-teal-600" />
+        <Image
+          src="/brand/line-avatar-512.png"
+          alt="RealFans"
+          width={24}
+          height={24}
+          className="size-6 rounded-md"
+          priority
+        />
         <span className="tracking-tight">
           RealFans
           <span className="ml-1 text-xs text-muted-foreground">真粉</span>
