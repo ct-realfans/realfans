@@ -200,6 +200,7 @@ vercel deploy --prod --yes       # 部署
 
 - [`ROADMAP.md`](./ROADMAP.md) — P0-P3 功能佇列 + 投資人里程碑對應
 - [`GTM.md`](./GTM.md) — 顧客怎麼進、邀評怎麼送、3 種垂直 GTM 劇本、成本模型
+- [`VALUE.md`](./VALUE.md) — 客戶價值邏輯、3 個 ROI 個案、投資人 Q&A 實證
 - [`docs/index.html`](./docs/index.html) — 投資人 pitch deck（GitHub Pages）
 
 下次繼續開發優先做 `ROADMAP.md` 的 P0 五項（合計 2 天）。
