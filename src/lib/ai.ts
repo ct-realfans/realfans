@@ -83,6 +83,82 @@ export async function generateInviteMessage(ctx: InviteContext) {
   }
 }
 
+export interface ReplyContext {
+  rating: number;
+  reviewContent: string;
+  reviewerName?: string;
+  storeName: string;
+  brandVoice: string;
+  language?: "zh-TW" | "en";
+}
+
+function buildReplyPrompt(ctx: ReplyContext): string {
+  const lang = ctx.language ?? "zh-TW";
+  const toneHint =
+    ctx.rating >= 4
+      ? "這是正面評論。以真誠感謝開頭，針對顧客提到的具體細節回應。不要過度誇張、不要推銷新產品。"
+      : ctx.rating === 3
+        ? "這是中性評論（3 星）。先感謝回饋、承認對方觀察正確、具體說明會如何改進或已經在做什麼，不要防衛。"
+        : "這是負評。絕對不可以防衛或找藉口。先認真道歉、承認問題、說明會採取的具體行動（若適用），並邀請私下聯絡以補償。";
+
+  return [
+    `你是「${ctx.storeName}」的真人店長，語言：${lang === "zh-TW" ? "繁體中文（台灣）" : "English"}。`,
+    `品牌語氣指引：${ctx.brandVoice}`,
+    "",
+    "任務：對一則顧客在 Google 留下的公開評論，寫一段**會公開顯示**的回覆。",
+    "",
+    "嚴格規則：",
+    " - 直接寫「回覆本文」，不要加任何前綴（如「回覆：」「Reply:」）。",
+    " - 長度：60–150 字，要像真人寫的，不要罐頭。",
+    " - 可以用 1 個 emoji，但不強制。",
+    " - 不要暗示對方修改評論、不要要求改星等 — 違反 Google 政策。",
+    " - 不要複製顧客原話，用自己的話回應要點。",
+    " - 不可以洩露內部資訊（員工姓名、競品比較、價格）。",
+    "",
+    `情境：${toneHint}`,
+    "",
+    "顧客評論內容：",
+    `- 作者：${ctx.reviewerName ?? "顧客"}`,
+    `- 星等：${ctx.rating} / 5`,
+    `- 內文：${ctx.reviewContent}`,
+    "",
+    "只輸出回覆本文。",
+  ].join("\n");
+}
+
+export async function generateReviewReply(ctx: ReplyContext) {
+  const prompt = buildReplyPrompt(ctx);
+  try {
+    const { text } = await generateText({
+      model: MODEL,
+      prompt,
+      temperature: 0.7,
+      providerOptions: {
+        gateway: { tags: ["feature:review-reply", "app:realfans"] },
+      },
+    });
+    return { reply: text.trim(), model: MODEL, prompt };
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err);
+    return {
+      reply: mockReply(ctx),
+      model: `mock (gateway unavailable: ${reason.slice(0, 80)})`,
+      prompt,
+    };
+  }
+}
+
+function mockReply(ctx: ReplyContext): string {
+  const who = ctx.reviewerName ?? "您";
+  if (ctx.rating >= 4) {
+    return `${who}您好～謝謝您撥空留下這段心得，看到被認可的細節，我們整個團隊會開心一整週 😊 下次再來，我們繼續把您記得的那份溫度準備好。`;
+  }
+  if (ctx.rating === 3) {
+    return `${who}您好，謝謝您坦白的回饋。您提到的問題我們有認真記下，會立刻跟夥伴檢視流程，下次您光臨時希望能給您不一樣的感受 🙏`;
+  }
+  return `${who}您好，非常抱歉這次的體驗沒有達到您的期待。我們想更仔細了解並直接處理 — 可以請您私訊我們 Google Business 訊息或寫信到 hello@realfans.tw 嗎？我們想親自補償。`;
+}
+
 function mockInvite(ctx: InviteContext): string {
   const detail = ctx.visitNotes?.split(/[。,.]/)[0] ?? "今天的餐點";
   const emoji = ctx.channel === "line" ? " ☺" : "";
