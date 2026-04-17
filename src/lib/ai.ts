@@ -148,6 +148,140 @@ export async function generateReviewReply(ctx: ReplyContext) {
   }
 }
 
+export interface MonthlyStats {
+  month: string;
+  totalReviews: number;
+  avgRating: number;
+  fiveStarCount: number;
+  lowStarCount: number;
+  invitesSent: number;
+  invitesReviewed: number;
+  conversionRate: number;
+  prevAvgRating: number | null;
+  prevTotalReviews: number | null;
+  topPositiveQuote?: string;
+  topConcernQuote?: string;
+  industry: string;
+  storeName: string;
+  brandVoice: string;
+}
+
+export interface MonthlyInsights {
+  headline: string;
+  wentWell: string;
+  toImprove: string;
+  nextMonthActions: string[];
+}
+
+function buildInsightsPrompt(s: MonthlyStats): string {
+  const trend =
+    s.prevAvgRating !== null
+      ? s.avgRating > s.prevAvgRating
+        ? `平均星等從 ${s.prevAvgRating.toFixed(1)} 提升到 ${s.avgRating.toFixed(1)}`
+        : s.avgRating < s.prevAvgRating
+          ? `平均星等從 ${s.prevAvgRating.toFixed(1)} 降到 ${s.avgRating.toFixed(1)}`
+          : `平均星等維持在 ${s.avgRating.toFixed(1)}`
+      : `本月平均 ${s.avgRating.toFixed(1)} 星`;
+
+  return [
+    `你是「${s.storeName}」(${s.industry}) 的行銷顧問。品牌語氣：${s.brandVoice}`,
+    "",
+    "任務：寫一份月度「品牌健康度」報告的敘事段落，要讓小商家老闆看了立刻懂、且有可執行動作。",
+    "",
+    "本月事實：",
+    `- 月份：${s.month}`,
+    `- 總評論數：${s.totalReviews}（上月 ${s.prevTotalReviews ?? "未知"}）`,
+    `- 趨勢：${trend}`,
+    `- 五星評論：${s.fiveStarCount} 則`,
+    `- 低星（≤3）評論：${s.lowStarCount} 則`,
+    `- 邀評送出：${s.invitesSent}`,
+    `- 邀評成功留評：${s.invitesReviewed}（轉換 ${s.conversionRate.toFixed(0)}%）`,
+    s.topPositiveQuote ? `- 本月最有感五星引用：「${s.topPositiveQuote}」` : "",
+    s.topConcernQuote ? `- 本月需留意的批評：「${s.topConcernQuote}」` : "",
+    "",
+    "請輸出 JSON 結構（不要 markdown code fence，不要其他文字）：",
+    "{",
+    '  "headline": "20 字內的一句總結，要像新聞標題",',
+    '  "wentWell": "80-120 字，具體講本月做對什麼、哪個顧客群反應最好",',
+    '  "toImprove": "80-120 字，具體講需改進之處，不要含糊，要指出現象和假設原因",',
+    '  "nextMonthActions": ["3-5 項可立即執行的動作，每項 15-30 字，動詞開頭"]',
+    "}",
+    "",
+    "絕不：",
+    " - 吹捧或虛構未提供的數據",
+    " - 罐頭用語如「再接再厲」、「繼續努力」",
+    " - 使用過於專業的行銷術語",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+export async function generateMonthlyInsights(
+  stats: MonthlyStats,
+): Promise<{ insights: MonthlyInsights; model: string }> {
+  const prompt = buildInsightsPrompt(stats);
+  try {
+    const { text } = await generateText({
+      model: MODEL,
+      prompt,
+      temperature: 0.6,
+      providerOptions: {
+        gateway: { tags: ["feature:monthly-report", "app:realfans"] },
+      },
+    });
+    const parsed = tryParseInsights(text);
+    if (parsed) return { insights: parsed, model: MODEL };
+    return { insights: mockInsights(stats), model: `${MODEL} (parse-fallback)` };
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err);
+    return {
+      insights: mockInsights(stats),
+      model: `mock (${reason.slice(0, 60)})`,
+    };
+  }
+}
+
+function tryParseInsights(text: string): MonthlyInsights | null {
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) return null;
+  try {
+    const obj = JSON.parse(match[0]);
+    if (
+      typeof obj.headline === "string" &&
+      typeof obj.wentWell === "string" &&
+      typeof obj.toImprove === "string" &&
+      Array.isArray(obj.nextMonthActions)
+    ) {
+      return {
+        headline: obj.headline,
+        wentWell: obj.wentWell,
+        toImprove: obj.toImprove,
+        nextMonthActions: obj.nextMonthActions
+          .filter((x: unknown) => typeof x === "string")
+          .slice(0, 5),
+      };
+    }
+  } catch {
+    // fall through
+  }
+  return null;
+}
+
+function mockInsights(s: MonthlyStats): MonthlyInsights {
+  const trendEmoji = s.prevAvgRating && s.avgRating > s.prevAvgRating ? "📈" : "➡️";
+  return {
+    headline: `${s.month} ${trendEmoji} ${s.totalReviews} 則真實評論，平均 ${s.avgRating.toFixed(1)} 星`,
+    wentWell: `本月透過 AI 邀評累積 ${s.invitesReviewed} 則新評論，轉換率 ${s.conversionRate.toFixed(0)}% 明顯高於業界平均 2-4%。${s.topPositiveQuote ? `顧客特別提到「${s.topPositiveQuote.slice(0, 30)}...」，是值得主打的優勢。` : "常客回訪率穩定是核心護城河。"}`,
+    toImprove: `${s.lowStarCount > 0 ? `本月出現 ${s.lowStarCount} 則低於 4 星的評論` : "低星評論掛零，但要小心「零批評」本身可能代表沉默流失"}，${s.topConcernQuote ? `例如「${s.topConcernQuote.slice(0, 30)}...」這類痛點需要系統性處理，而不只是個案回覆。` : "建議主動詢問已一個月未回訪的客人，找出流失原因。"}`,
+    nextMonthActions: [
+      "針對已留五星的顧客發放獨家回購誘因，把聲量轉成營收",
+      "用本月爆款內容（如顧客提到的招牌）開新一波 IG Reels",
+      "為低星評論提到的痛點訂 1 項本月改善 OKR",
+      "每週二、五 15:00 固定發送新的 AI 邀評批次",
+    ],
+  };
+}
+
 function mockReply(ctx: ReplyContext): string {
   const who = ctx.reviewerName ?? "您";
   if (ctx.rating >= 4) {
